@@ -13,6 +13,8 @@ const ProfileList = ({ profiles }) => {
               }}>
                 {p.name}
               </Link>
+              <button> Edit </button>
+              <button> Delete </button>
               <br/>
           </>
           )

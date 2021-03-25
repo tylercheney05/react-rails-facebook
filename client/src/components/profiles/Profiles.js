@@ -15,19 +15,41 @@ class Profiles extends Component {
       .catch( err => console.log(err))
   }
 
-  addProfile = (name) => {
-    // make api call to rails server to add profiles
-    // update state
+  addProfile = (profiles) => {
+    // add in back end, used to add new profiles
+    axios.post('/api/profiles', { profile })
+    .then( res => {
+      // add in state 
+      const { profiles } = this.state
+      this.setState({ profiles: [ ...profiles, res.data ]})
+      .catch( err => console.log(err))
+    })
   }
 
-  updateProfile = (id) => {
-    // make api call to update profiles
-    // update state
+  updateProfile = (id, profile) => {
+    //update for profile calls to backend
+    axios.put('/api/profiles/${id}', { profile })
+      .then( res => {
+        // update in state
+        const blogs = this.state.profiles.map( p => {
+          if (p.id === id) {
+            return res.data
+          }
+          return p
+        })
+        this.setState({ profiles })
+      })
+      .catch( err => console.log(err))
   }
 
   deleteProfile = (id) => {
     // make api call to delete profiles
-    // remove it from state
+    axios.delete('api/profiles/${id}')
+      .then( res => {
+        // delete in the state
+        const { profiles } = this.state
+        this.setState({ profiles: profiles.filter( p => p.id !== id)})
+      })
   }
 
   render() {
